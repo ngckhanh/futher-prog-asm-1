@@ -38,14 +38,7 @@ This project is an assignment for **COSC2440 Further Programming**, offered at *
 
 **Rental Management System**
 
-The Rental Management System is designed as an internal tool to streamline the management of rental properties, tenants, and lease agreements. It provides a structured approach to organizing and tracking rental transactions, including:
-
-- **Property Details**
-- **Tenant Information**
-- **Payment Records**
-- **Contract Terms**
-
-This system reduces manual tasks, ensures consistent data, and provides clear insights into rental agreements and tenant payments, simplifying property management.
+The Rental Management System is an internal tool designed to streamline the management of rental properties, tenants, and leases. It provides an organized way to handle property details, tenant records, payment history, and contract terms, ensuring smooth and efficient tracking of rental transactions. The technology improves property administration by minimising manual tasks, maintaining consistent data, and offering clear information about rental agreements and tenant payments.
 
 ---
 
@@ -59,7 +52,8 @@ This system reduces manual tasks, ensures consistent data, and provides clear in
 
 ## Build
 ```
-. └── src/ 
+.
+└── src/ 
 └── components/ 
 └── README.md 
 ├── Main.java
@@ -76,11 +70,15 @@ This system reduces manual tasks, ensures consistent data, and provides clear in
 │ │ ├── Payment.java
 │ │ ├── Person.java
 │ │ ├── Persons.java
-│ │ ├── Properties.java
 │ │ ├── Property.java
 │ │ ├── RentalAgreement.java
 │ │ ├── ResidentialProperty.java
 │ │ └── Tenant.java
+│ ├── managers/
+│ │ ├── Properties.java
+│ │ ├── Persons.java
+│ │ ├── Payments.java
+│ │ └── RentalAgreements.java
 │ ├── enums/
 │ │ ├── AgreementStatus.java
 │ │ ├── PaymentMethod.java
@@ -109,8 +107,6 @@ This system reduces manual tasks, ensures consistent data, and provides clear in
 │ ├── CommercialPropertyFileUtils/
 │ │ ├── CommercialPropertyReadFile.java
 │ │ └── CommercialPropertyWriteFile.java
-│ ├── EntityDisplay.java
-│ ├── EntitySave.java
 │ ├── HostFileUtils/
 │ │ ├── HostReadFile.java
 │ │ └── HostWriteFile.java
@@ -150,20 +146,23 @@ The project structure follows the Model-View-Controller (MVC) design pattern to 
 
 1. **`Controller/`**  
    The main controller handling all system operations and logic.
+    - **RentalAgreementController**: Manages rental agreement functionality, including creating, updating, and deleting rental agreements.
+    - **ReportController**: Manages report generation functionality, pulling relevant data for creating various reports.
 
-2. **`RentalAgreementController/`**  
-   Handles rental agreement functionality, such as creating, updating, and deleting agreements.
+2. **`models/`**  
+   Contains all the class objects used in the system (Objects, Enums, Interfaces, Manager).
 
-3. **`ReportController/`**  
-   Manages report generation functionality, pulling relevant data for creating reports.
-
-4. **`models/`**  
-   Contains all the class objects used in the system (Objects, Enums, Interfaces).
-
-5. **`services/`**  
+3. **`services/`**  
    Defines the logic and services used to process business operations in the system.
 
-6. **`entities/`**  
+4. **`managers/`**  
+   Contains classes that manage the CRUD operations for various entities.
+    - **Properties**: Manages CRUD operations for properties (both residential and commercial).
+    - **Persons**: Manages CRUD operations for persons (tenants, hosts, owners).
+    - **Payments**: Manages payment records and operations.
+    - **RentalAgreements**: Manages rental agreement records and operations.
+
+5. **`entities/`**  
    Stores all core entities in the system, such as:
     - **Rental Agreement**
     - **Person**
@@ -174,14 +173,24 @@ The project structure follows the Model-View-Controller (MVC) design pattern to 
     - **Commercial Property**
     - **Residential Property**
 
-7. **`resource/`**  
+6. **`enums/`**  
+   Contains enumerated types for various statuses and methods, such as:
+    - **AgreementStatus**
+    - **PaymentMethod**
+    - **PeriodType**
+    - **PropertyStatus**
+
+7. **`interfaces/`**  
+  Defines contracts for various managers and services.
+   
+8. **`resource/`**  
    Stores all the `.txt` files (the system’s database).
 
-8. **`utils/`**  
+9. **`utils/`**  
    Contains utility classes for reading and writing to the database files.
 
-9. **`view/`**  
-   Handles the menu and user interaction in the console interface.
+10. **`view/`**  
+   Handles the menu and user interaction in the console interface, providing a user-friendly way to interact with the system.
 
 ---
 

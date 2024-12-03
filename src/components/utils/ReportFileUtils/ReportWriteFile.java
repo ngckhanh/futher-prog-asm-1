@@ -1,5 +1,7 @@
 package utils.ReportFileUtils;
-
+/**
+ * @author <Ton Nu Ngoc Khanh - s3932105>
+ */
 import models.entities.*;
 
 import java.io.BufferedWriter;
@@ -9,7 +11,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
+
 
 public class ReportWriteFile {
     // Define ANSI color codes at the top of your class
@@ -39,7 +41,7 @@ public class ReportWriteFile {
 
             // Success message
             System.out.println(ANSI_CYAN + "╔════════════════════════════════════════════════════════╗");
-            System.out.println("╟" + ANSI_CYAN + "      " +   reportType.toUpperCase() + "SAVED SUCCESSFULLY        ║");
+            System.out.println(ANSI_CYAN + "      " +   "        REPORT SAVED SUCCESSFULLY        ");
             System.out.println("╟────────────────────────────────────────────────────────╢" + ANSI_RESET);
             System.out.println("       File Name: " + fileName);
             System.out.println("       Total Items: " + items.size());
@@ -67,10 +69,6 @@ public class ReportWriteFile {
 
     public static void saveRentalAgreementReportToFile(List<RentalAgreement> rentalAgreements) throws IOException {
         saveReportToFile(rentalAgreements, "rentalAgreementReport");
-    }
-
-    public static void savePropertyReportToFile(List<Property> properties) throws IOException {
-        saveReportToFile(properties, "propertyReport");
     }
 
     public static void saveResidentialPropertiesReportToFile(List<ResidentialProperty> residentialProperties) throws IOException {

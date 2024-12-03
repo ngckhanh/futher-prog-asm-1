@@ -2,38 +2,29 @@ package view;
 /**
  * @author <Ton Nu Ngoc Khanh - s3932105>
  */
-import controllers.RentalAgreementController;
 import controllers.operation.FileUtility;
-import models.entities.*;
 import models.interfaces.RentalManager;
-import models.enums.AgreementStatus;
+import models.managers.Persons;
+import models.managers.Properties;
 import services.RentalManagerImpl;
 
 import java.io.IOException;
 import java.util.*;
 
 import static controllers.RentalAgreementController.*;
-import static controllers.ReportController.*;
-//import static models.entities.RentalAgreement.viewAllRentalAgreements;
-import static utils.HostFileUtils.HostReadFile.readHostsFromFile;
-//import static utils.OwnerFileUtils.OwnerReadFile.readOwnerFromFile;
-import static utils.PaymentFileUtils.PaymentReadFile.readPaymentsFromFile;
-//import utils.RentalAgreementFileUtils.RentalAgreementReadFile.readRentalAgreementFromFile;
-import static utils.ResidentialPropertyFileUtils.ResidentialPropertyReadFile.readResidentialPropertiesFromFile;
-import static utils.CommercialPropertyFileUtils.CommercialPropertyReadFile.readCommercialPropertiesFromFile;
-//import static utils.TenantFileUtils.TenantReadFile.readTenantFromFile;
 
 import static view.ReportMenu.reportMenu;
 
 public class RentalSystemMenu {
     private static RentalManager rentalManager;
+    private static Persons persons;
+    private static Properties properties;
 
     static {
-        rentalManager = new RentalManagerImpl();  // Ensure initialization
+        rentalManager = new RentalManagerImpl();
+        persons = new Persons();
+        properties = new Properties();
     }
-
-
-    private static final String RENTAL_AGREEMENT_FILE_PATH = "src/components/resource/data/rentalAgreementData/rental_agreement.txt";
 
     public static void displayBanner(){
         String red = "\u001B[31m";
@@ -94,7 +85,6 @@ public class RentalSystemMenu {
     }
 
     public static void rentalSystemMenu() throws IOException {
-        RentalAgreementController rentalAgreementController = new RentalAgreementController();
         Scanner scanner = new Scanner(System.in);
 
         // Displaying the menu in a separate method for clarity
@@ -108,7 +98,7 @@ public class RentalSystemMenu {
 
                 switch (choice) {
                     case 1:
-                        rentalAgreementController.createRentalAgreement();
+                        createRentalAgreement();
                         break;
                     case 2:
                         updateRentalAgreement();
@@ -193,20 +183,69 @@ public class RentalSystemMenu {
                         displayAgreements();
                         break;
                     case 2:
-                        System.out.print("Enter owner name: ");
-                        String ownerName = scanner.nextLine();
-                        showAgreementsForOwner(ownerName);
+                        // Display list of owners
+                        List<String> ownerNames = persons.getOwnerNames();
+                        if (ownerNames.isEmpty()) {
+                            System.out.println("No owners found.");
+                        } else {
+                            System.out.println("Select an owner by number:");
+                            for (int i = 0; i < ownerNames.size(); i++) {
+                                System.out.println("[" + (i + 1) + "] " + ownerNames.get(i));
+                            }
+                            System.out.print("Enter the number of the owner: ");
+                            int ownerChoice = scanner.nextInt();
+                            scanner.nextLine();  // Clear the newline character from the buffer
+
+                            if (ownerChoice > 0 && ownerChoice <= ownerNames.size()) {
+                                String selectedOwnerName = ownerNames.get(ownerChoice - 1);
+                                showAgreementsForOwner(selectedOwnerName);
+                            } else {
+                                System.out.println("Invalid selection. Please try again.");
+                            }
+                        }
                         break;
                     case 3:
-                        System.out.print("Enter property address: ");
-                        String propertyAddress = scanner.nextLine();
-                        showAgreementsForProperty(propertyAddress);
+                        // Display list of property addresses
+                        List<String> propertyAddresses = properties.getPropertyAddresses();
+                        if (propertyAddresses.isEmpty()) {
+                            System.out.println("No properties found.");
+                        } else {
+                            System.out.println("Select a property by number:");
+                            for (int i = 0; i < propertyAddresses.size(); i++) {
+                                System.out.println("[" + (i + 1) + "] " + propertyAddresses.get(i));
+                            }
+                            System.out.print("Enter the number of the property: ");
+                            int propertyChoice = scanner.nextInt();
+                            scanner.nextLine();  // Clear the newline character from the buffer
+
+                            if (propertyChoice > 0 && propertyChoice <= propertyAddresses.size()) {
+                                String selectedPropertyAddress = propertyAddresses.get(propertyChoice - 1);
+                                showAgreementsForProperty(selectedPropertyAddress);
+                            } else {
+                                System.out.println("Invalid selection. Please try again.");
+                            }
+                        }
                         break;
                     case 4:
-                        System.out.print("Enter status (Active/Inactive): ");
-                        String status = scanner.nextLine();
+                        String status = "";
+                        boolean validStatus = false;
+
+                        while (!validStatus) {
+                            System.out.print("Enter status (New/Active/Completed): ");
+                            status = scanner.nextLine().trim();
+
+                            // Check if the input is valid
+                            if (status.equalsIgnoreCase("New") || status.equalsIgnoreCase("Active") || status.equalsIgnoreCase("Completed")) {
+                                validStatus = true; // Valid input, exit the loop
+                            } else {
+                                System.out.println("Invalid status. Please enter either 'New', 'Active', or 'Completed'.");
+                            }
+                        }
+
+                        // Proceed with the valid status
                         showAgreementsByStatus(status);
                         break;
+
                     case 0:
                         rentalSystemMenu();  // Assuming this method returns to the main menu
                         return;  // Exit the loop

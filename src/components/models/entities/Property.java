@@ -6,7 +6,6 @@ import models.enums.PropertyStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Property {
     private String propertyId;
@@ -16,25 +15,23 @@ public class Property {
     private Owner owner;
     private String ownerId;
     private List<Host> hostList;
-    private List<String> hostIds;
+    private List<String> hostListIds;
 
     // Constructor
-    public Property(String propertyId, String address, double pricing, PropertyStatus status, String ownerId, List<String> hostIds) {
+    public Property(String propertyId, String address, double pricing, PropertyStatus status, String ownerId, List<String> hostListIds) {
         this.propertyId = propertyId;
         this.address = address;
         this.pricing = pricing;
         this.status = status;
         this.ownerId = ownerId;
-        this.hostIds = hostIds != null ? hostIds : new ArrayList<>();
+        this.hostListIds = hostListIds != null ? hostListIds : new ArrayList<>(); // Initialize hostList to an empty list if null
     }
 
-    public Property(String propertyId, String address, double pricing, PropertyStatus status, Owner owner, List<Host> hostList) {
+    public Property(String propertyId, String address, Double pricing, PropertyStatus status) {
         this.propertyId = propertyId;
         this.address = address;
         this.pricing = pricing;
         this.status = status;
-        this.owner = owner;
-        this.hostList = hostList != null ? hostList : new ArrayList<>(); // Initialize hostList to an empty list if null
     }
 
     // Getters
@@ -46,18 +43,8 @@ public class Property {
         return hostList;
     }
 
-    public List<String> getHostListIDs() {
-        return hostList.stream()
-                .map(Host::getId)
-                .collect(Collectors.toList());
-    }
-
     public Owner getOwner() {
         return owner;
-    }
-
-    public String getOwnerFullName() {
-        return owner != null ? owner.getFullName() : "Unknown"; // Handle potential null owner
     }
 
     public String getOwnerID() {
@@ -76,20 +63,12 @@ public class Property {
         return status;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public void setHostList(List<Host> hostList) {
         this.hostList = hostList;
     }
 
     public void setOwner(Owner owner) {
         this.owner = owner;
-    }
-
-    public void setPricing(double pricing) {
-        this.pricing = pricing;
     }
 
     public void setPropertyId(String propertyId) {
@@ -100,10 +79,6 @@ public class Property {
         this.status = status;
     }
 
-    // Method to change property status
-    public void updateStatus(PropertyStatus newStatus) {
-        this.status = newStatus;
-    }
 
         @Override
     public String toString() {
@@ -124,7 +99,7 @@ public class Property {
                 ", address='" + address + '\'' +
                 ", pricing=" + pricing +
                 ", status=" + status +
-                ", ownerID='" + owner + '\'' +
+                ", ownerID='" + owner.getId() + '\'' +
                 ", hostList='" + hostListIds + '\'' +
                 '}';
     }

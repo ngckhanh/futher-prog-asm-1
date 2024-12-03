@@ -8,15 +8,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import controllers.ReportController;
-import utils.RentalAgreementFileUtils.RentalAgreementReadFile;
 
-import static controllers.ReportController.*;
-//import static models.entities.RentalAgreement.viewAllRentalAgreements;
-import static view.RentalSystemMenu.printRentalSystemMenu;
 import static view.RentalSystemMenu.rentalSystemMenu;
 
 public class ReportMenu {
-    //private ReportController reportController;
 
     public static void reportMenu(){
         Scanner scanner = new Scanner(System.in);

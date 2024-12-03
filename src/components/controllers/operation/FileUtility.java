@@ -2,16 +2,12 @@ package controllers.operation;
 /**
  * @author <Ton Nu Ngoc Khanh - s3932105>
  */
-import com.github.javafaker.Faker;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+
 
 public class FileUtility {
     String rental_agreementFile = "src/components/resource/data/rentalAgreementData/rental_agreement.txt";
@@ -92,7 +88,7 @@ public class FileUtility {
     // Write to host.txt
     private void writeToHostFile() throws IOException {
         String content="Host{ID='h-01', fullName='Josue Russel', dob='Sat Sep 23 11:52:37 ICT 1995', contactInfo='adelina.yundt@hotmail.com', managedPropertyList='cp-04', cooperatingOwnerList='o-09', rentalAgreementList='a-07'}\n" +
-                "Host{ID='h-02', fullName='Julia Morissette', dob='Wed Nov 04 13:26:47 ICT 1987', contactInfo='andres.mayert@gmail.com', managedPropertyList='rp-01', cooperatingOwnerList='o-15', rentalAgreementList='a-02'}\n" +
+                "Host{ID='h-02', fullName='Julia Morissette', dob='Wed Nov 04 13:26:47 ICT 1987', contactInfo='andres.mayert@gmail.com', managedPropertyList='rp-01', cooperatingOwnerList='o-15', rentalAgreementList='a-14'}\n" +
                 "Host{ID='h-03', fullName='Lera Walter', dob='Sun Aug 08 10:25:04 ICT 1965', contactInfo='jacquline.kohler@yahoo.com', managedPropertyList='cp-03', cooperatingOwnerList='o-10', rentalAgreementList='a-05'}\n" +
                 "Host{ID='h-04', fullName='Martin Robel IV', dob='Mon Nov 17 17:39:19 ICT 1975', contactInfo='jodi.keeling@yahoo.com', managedPropertyList='cp-01', cooperatingOwnerList='o-15', rentalAgreementList='a-02'}\n" +
                 "Host{ID='h-05', fullName='Loni Cronin', dob='Mon Jun 23 06:31:45 ICT 1975', contactInfo='warren.denesik@gmail.com', managedPropertyList='cp-06', cooperatingOwnerList='o-03', rentalAgreementList='a-11'}\n" +
@@ -120,7 +116,7 @@ public class FileUtility {
                 "Tenant{ID='t-05', fullName='Mr. Tracy Hodkiewicz', dob='Thu Feb 16 04:12:24 ICT 2006', contactInfo='pasquale.feest@gmail.com', rentalAgreementList='a-12, a-14', rentedPropertyList='rp-02, rp-01', paymentRecords='p-04'}\n" +
                 "Tenant{ID='t-06', fullName='Percy Conroy', dob='Thu Nov 03 10:28:51 ICT 1966', contactInfo='gilberto.watsica@hotmail.com', rentalAgreementList='a-08', rentedPropertyList='rp-04', paymentRecords='p-13'}\n" +
                 "Tenant{ID='t-07', fullName='Garry Jacobs', dob='Wed Jan 06 04:16:08 ICT 1993', contactInfo='yung.runolfsson@hotmail.com', rentalAgreementList='a-10, a-02, a-12', rentedPropertyList='rp-03, cp-01, rp-02', paymentRecords='p-02'}\n" +
-                "Tenant{ID='t-08', fullName='Brandon Lesch', dob='Wed Oct 06 04:25:17 ICT 1971', contactInfo='tamatha.dibbert@gmail.com', rentalAgreementList='a-11, a-03, a-07', rentedPropertyList='cp-06, cp-02 cp-04', paymentRecords='p-10'}\n" +
+                "Tenant{ID='t-08', fullName='Brandon Lesch', dob='Wed Oct 06 04:25:17 ICT 1971', contactInfo='tamatha.dibbert@gmail.com', rentalAgreementList='a-11, a-03, a-07', rentedPropertyList='cp-06, cp-02, cp-04', paymentRecords='p-10'}\n" +
                 "Tenant{ID='t-09', fullName='Carlo Moen', dob='Sun May 11 04:24:28 ICT 1969', contactInfo='marybeth.erdman@gmail.com', rentalAgreementList='a-03, a-01, a-05, a-12', rentedPropertyList='cp-02, rp-07, cp-03, rp-02', paymentRecords='p-12'}\n" +
                 "Tenant{ID='t-10', fullName='Kathie Donnelly', dob='Fri Mar 13 19:50:22 ICT 1964', contactInfo='gail.hilll@hotmail.com', rentalAgreementList='a-02, a-11', rentedPropertyList='cp-01, cp-06', paymentRecords='p-14'}\n" +
                 "Tenant{ID='t-11', fullName='Miss Christopher Schneider', dob='Sun Mar 19 15:29:43 ICT 1972', contactInfo='lyman.smith@hotmail.com', rentalAgreementList='a-06, a-02', rentedPropertyList='rp-05, cp-01', paymentRecords='p-11'}\n" +
@@ -138,18 +134,18 @@ public class FileUtility {
         String content="Payment{paymentId='p-01', amount='$310.83', paymentDate='Sat Nov 16 22:08:01 ICT 2024', method='Credit_card'}\n" +
                 "Payment{paymentId='p-02', amount='$1347.78', paymentDate='Tue Nov 05 12:43:20 ICT 2024', method='Cash'}\n" +
                 "Payment{paymentId='p-03', amount='$1819.59', paymentDate='Wed Nov 20 17:11:45 ICT 2024', method='Cash'}\n" +
-                "Payment{paymentId='p-04', amount='$1539.8', paymentDate='Fri Nov 08 02:50:42 ICT 2024', method='Cash'}\n" +
-                "Payment{paymentId='p-05', amount='$807.74', paymentDate='Thu Oct 31 20:56:43 ICT 2024', method='Cash'}\n" +
+                "Payment{paymentId='p-04', amount='$20.8', paymentDate='Fri Nov 08 02:50:42 ICT 2024', method='Cash'}\n" +
+                "Payment{paymentId='p-05', amount='$950.74', paymentDate='Thu Oct 31 20:56:43 ICT 2024', method='Cash'}\n" +
                 "Payment{paymentId='p-06', amount='$510.35', paymentDate='Wed Oct 23 13:45:30 ICT 2024', method='Cash'}\n" +
                 "Payment{paymentId='p-07', amount='$1233.77', paymentDate='Tue Nov 12 15:04:33 ICT 2024', method='Cash'}\n" +
                 "Payment{paymentId='p-08', amount='$876.15', paymentDate='Thu Nov 07 10:39:16 ICT 2024', method='Cash'}\n" +
                 "Payment{paymentId='p-09', amount='$1164.03', paymentDate='Fri Nov 01 00:57:20 ICT 2024', method='Credit_card'}\n" +
                 "Payment{paymentId='p-10', amount='$320.42', paymentDate='Thu Oct 24 16:13:34 ICT 2024', method='Credit_card'}\n" +
                 "Payment{paymentId='p-11', amount='$974.64', paymentDate='Wed Oct 23 18:23:33 ICT 2024', method='Cash'}\n" +
-                "Payment{paymentId='p-12', amount='$1266.52', paymentDate='Wed Nov 13 17:18:09 ICT 2024', method='Cash'}\n" +
+                "Payment{paymentId='p-12', amount='$126.52', paymentDate='Wed Nov 13 17:18:09 ICT 2024', method='Cash'}\n" +
                 "Payment{paymentId='p-13', amount='$1610.88', paymentDate='Sat Nov 16 08:26:07 ICT 2024', method='Credit_card'}\n" +
                 "Payment{paymentId='p-14', amount='$1649.65', paymentDate='Fri Nov 01 18:14:04 ICT 2024', method='Credit_card'}\n" +
-                "Payment{paymentId='p-15', amount='$1865.04', paymentDate='Mon Nov 04 17:57:05 ICT 2024', method='Credit_card'}\n";
+                "Payment{paymentId='p-15', amount='$185.04', paymentDate='Mon Nov 04 17:57:05 ICT 2024', method='Credit_card'}\n";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(paymentFile, true))) {
             writer.write(content);
         }

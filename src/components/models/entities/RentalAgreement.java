@@ -5,23 +5,21 @@ package models.entities;
 import models.enums.AgreementStatus;
 import models.enums.PeriodType;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
-
-//import static utils.RentalAgreementFileUtils.RentalAgreementReadFile.getRentalAgreementByID;
-//import utils.RentalAgreementFileUtils.RentalAgreementReadFile.readRentalAgreementFromFile;
-
 public class RentalAgreement {
-    private final String agreementId;
+    private String agreementId;
     private Host host;
+    private String hostId;
     private Property property;
+    private String propertyId;
     private Tenant mainTenant;
+    private String mainTenantId;
     private List<Tenant> subTenants;
+    private List<String> subTenantIds;
     private PeriodType period;
     private Date contractDate;
     private double rentalFee;
@@ -40,64 +38,23 @@ public class RentalAgreement {
         //this.status = status;
     }
 
-    public RentalAgreement(String agreementId) {
+    public RentalAgreement(String agreementId, PeriodType period, Date contractDate, double rentalFee, AgreementStatus status) {
         this.agreementId = agreementId;
-        this.subTenants = new ArrayList<>();
-        this.status = AgreementStatus.NEW;
-        //this.status = status;
+        this.period = period;
+        this.contractDate = contractDate;
+        this.rentalFee = rentalFee;
+        this.status = status;
     }
 
-    public void addSubTenant(Tenant subTenant) {
-        if (subTenant != null) {
-            subTenants.add(subTenant);
-        }
-    }
-
-//    public static void viewAllRentalAgreements() throws IOException {
-//        String ANSI_RESET = "\u001B[0m";
-//        String ANSI_GREEN = "\u001B[32m";
-//        String ANSI_BLUE = "\u001B[34m";
-//        String ANSI_CYAN = "\u001B[36m";
-//        String ANSI_RED = "\u001B[31m";
-//        String yellow = "\u001B[33m";
-//        Scanner scanner = new Scanner(System.in);
-//
-//        List<RentalAgreement> agreementList = rentalAgreementReadFile.readRentalAgreementFromFile("src/components/resource/data/rentalAgreementData/rental_agreement.txt");
-//
-//        // Check if the list is empty or null
-//        if (agreementList == null || agreementList.isEmpty()) {
-//            System.out.println(ANSI_CYAN + "╔════════════════════════════════════════════════════════╗");
-//            System.out.println("╟" + ANSI_CYAN + "        RENTAL AGREEMENTS LIST IS EMPTY" + "                ║");
-//            System.out.println("╟────────────────────────────────────────────────────────╢" + ANSI_RESET);
-//            System.out.println(yellow + "                       ★ ★ ★ ★ ★" + ANSI_RESET );
-//            System.out.println(ANSI_CYAN + "╚════════════════════════════════════════════════════════╝" + ANSI_RESET);
-//            System.out.print("Press any key to return...");
-//            scanner.next();  // Wait for the user to press Enter
-//            return;  // Exit the method if no rental agreements are found
+//    public void addSubTenant(Tenant subTenant) {
+//        if (subTenant != null) {
+//            subTenants.add(subTenant);
 //        }
-//
-//      System.out.println(ANSI_CYAN +"All RENTAL AGREEMENTS");
-//
-//        // Loop through the list and display rental agreements
-//        for (int i = 0; i < agreementList.size(); i++) {
-//            RentalAgreement rentalAgreement = agreementList.get(i);
-//
-//            System.out.println("[" + (i + 1) + "]" +
-//                    " Agreement ID: " + rentalAgreement.getAgreementId() +
-//                    " | Host: " + rentalAgreement.getHost() +
-//                    " | Property: " + rentalAgreement.getProperty() +
-//                    " | Main Tenant: " + rentalAgreement.getMainTenant() +
-//                    " | Sub Tenants: " + rentalAgreement.getSubTenants() +
-//                    " | Period: " + rentalAgreement.getPeriod() +
-//                    " | Contract Date: " + rentalAgreement.getContractDate() +
-//                    " | Rental Fee: $" + rentalAgreement.getRentalFee() +
-//                    " | Status: " + rentalAgreement.getStatus());
-//        }
-//
-//        System.out.println("Press any key to return...");
-//        scanner.next();
 //    }
 
+    public String getPropertyId() {
+        return propertyId;
+    }
 
     public String getAgreementId() {
         return agreementId;
@@ -107,12 +64,12 @@ public class RentalAgreement {
         return contractDate;
     }
 
-    public void setContractDate(Date contractDate) {
-        this.contractDate = contractDate;
-    }
-
     public Host getHost() {
         return host;
+    }
+
+    public String getHostId() {
+        return hostId;
     }
 
     public void setHost(Host host) {
@@ -126,7 +83,6 @@ public class RentalAgreement {
     public void setMainTenant(Tenant mainTenant) {
         this.mainTenant = mainTenant;
     }
-
 
     public Property getProperty() {
         return property;
@@ -166,13 +122,69 @@ public class RentalAgreement {
                 .collect(Collectors.toList());
     }
 
-
     public PeriodType getPeriod() {
         return period;
     }
 
     public void setPeriod(PeriodType period) {
         this.period = period;
+    }
+
+    public double getTotalPaymentsHavePaid() {
+        double totalPayments = 0.0;
+
+        // Add payments from the main tenant
+        totalPayments += mainTenant.getPaymentRecords().stream()
+                .mapToDouble(Payment::getAmount) // Assuming getAmount returns a double
+                .sum();
+
+        // Add payments from sub-tenants
+        for (Tenant subTenant : subTenants) {
+            totalPayments += subTenant.getPaymentRecords().stream()
+                    .mapToDouble(Payment::getAmount) // Assuming getAmount returns a double
+                    .sum();
+        }
+
+        return totalPayments;
+    }
+
+    public double getBalanceDue() {
+        double totalPayments = getTotalPaymentsHavePaid();
+        double balanceDue = rentalFee - totalPayments; // Calculate the balance due
+        return Math.max(balanceDue, 0); // Return 0 if balance due is less than 0
+    }
+
+    public void displayRentalFee() {
+        double rentalFee = getRentalFee();
+        String formattedRentalFee = String.format("$%.2f", rentalFee);
+        System.out.println("Rental Fee of this agreement: " + formattedRentalFee);
+    }
+    public void displayTotalPayments() {
+        double totalPayments = getTotalPaymentsHavePaid();
+        String formattedTotalPayments = String.format("$%.2f", totalPayments);
+        System.out.println("Total payment amounts have paid: " + formattedTotalPayments);
+    }
+
+    public void displayBalanceDue() {
+        String red = "\u001B[31m";
+        String green = "\u001B[32m";
+        String yellow = "\u001B[33m";
+        String blue = "\u001B[34m";
+        String purple = "\u001B[35m";
+        String cyan = "\u001B[36m";
+        String white = "\u001B[37m";
+        String reset = "\u001B[0m";
+        double balanceDue = getBalanceDue();
+        String formattedBalanceDue = String.format("$%.2f", balanceDue);
+        if (balanceDue == 0){
+            System.out.println(yellow+"This agreement have is fully paid"+reset);
+        } else {
+            System.out.println("The tenant still owes: " + red +formattedBalanceDue +reset);
+        }
+    }
+
+    public boolean isRentalFeePaid() {
+        return getTotalPaymentsHavePaid() >= rentalFee; // Allow deletion if total payments are greater than or equal to rental fee
     }
 
     @Override
@@ -197,4 +209,5 @@ public class RentalAgreement {
                 ", agreementStatus='" + status.getStatus() + '\'' +
                 '}';
     }
+
 }

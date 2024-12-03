@@ -1,7 +1,10 @@
 package controllers;
-
+/**
+ * @author <Ton Nu Ngoc Khanh - s3932105>
+ */
 import models.entities.*;
-import models.entities.Properties;
+import models.managers.Persons;
+import models.managers.Properties;
 import utils.*;
 import utils.CommercialPropertyFileUtils.CommercialPropertyReadFile;
 import utils.HostFileUtils.HostReadFile;
@@ -11,20 +14,24 @@ import utils.RentalAgreementFileUtils.RentalAgreementReadFile;
 import utils.ReportFileUtils.ReportWriteFile;
 import utils.ResidentialPropertyFileUtils.ResidentialPropertyReadFile;
 import utils.TenantFileUtils.TenantReadFile;
-import utils.TenantFileUtils.TenantWriteFile;
 
 import java.io.IOException;
 import java.util.*;
-
-import static utils.RentalAgreementFileUtils.RentalAgreementReadFile.readRentalAgreementsFromFile;
 import static view.ReportMenu.reportMenu;
 
 public class ReportController {
-    private RentalAgreementReadFile rentalAgreementReadFile;
     private static final Scanner scanner = new Scanner(System.in);
 
-    public ReportController() {
-        rentalAgreementReadFile = new RentalAgreementReadFile();
+    @FunctionalInterface
+    public interface EntityDisplay<T> {
+        // Abstract method to display a list of entities
+        void display(List<T> entities);
+    }
+
+    @FunctionalInterface
+    public interface EntitySave<T> {
+        // Abstract method to save a list of entities
+        void save(List<T> entities) throws IOException;
     }
 
     // Generic method to handle report generation
@@ -121,7 +128,7 @@ public class ReportController {
     }
 
     public static void handlePaymentReport() throws IOException {
-        List<Payment> payments = PaymentReadFile.readPaymentsFromFile("src/components/resource/data/paymentData/payment.txt");
+        List<Payment> payments = PaymentReadFile.readPaymentsFromFile();
         List<SortOption<Payment>> paymentSortOptions = getPaymentSortOptions();
         handleReport("payments", payments, PaymentReadFile::displayPayments, ReportWriteFile::savePaymentReportToFile, paymentSortOptions);
     }
@@ -141,7 +148,7 @@ public class ReportController {
     }
 
     public static void handleRentalAgreementReport() throws IOException {
-        List<RentalAgreement> rentalAgreements = readRentalAgreementsFromFile("src/components/resource/data/rentalAgreementData/rental_agreement.txt");
+        List<RentalAgreement> rentalAgreements = RentalAgreementReadFile.readRentalAgreementsFromFile();
         List<SortOption<RentalAgreement>> rentalAgreementSortOptions = getRentalAgreementSortOptions();
         handleReport("rental agreements", rentalAgreements, RentalAgreementReadFile::displayRentalAgreements, ReportWriteFile::saveRentalAgreementReportToFile, rentalAgreementSortOptions);
     }

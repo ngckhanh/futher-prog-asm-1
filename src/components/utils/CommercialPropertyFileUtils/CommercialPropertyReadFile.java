@@ -2,104 +2,157 @@ package utils.CommercialPropertyFileUtils;
 /**
  * @author <Ton Nu Ngoc Khanh - s3932105>
  */
-import models.entities.CommercialProperty;
-import models.entities.Host;
-import models.entities.Owner;
+import models.entities.*;
 import models.enums.PropertyStatus;
+import utils.HostFileUtils.HostReadFile;
+import utils.OwnerFileUtils.OwnerReadFile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-//import static utils.HostFileUtils.HostReadFile.getHostByID;
-//import static utils.OwnerFileUtils.OwnerReadFile.getOwnerByID;
+import java.util.*;
 
 public class CommercialPropertyReadFile {
+    private static String filePath = "src/components/resource/data/propertyData/commercial_property.txt";
+
+    private static Map<String, CommercialProperty> commercialPropertyMap;
+    public static Map<String, CommercialProperty> getCommercialPropertyMap() throws IOException {
+        if (commercialPropertyMap == null) {
+            commercialPropertyMap = readCommercialPropertiesFirstTime();
+            commercialPropertyMap = readCommercialPropertiesSecondTime(commercialPropertyMap);
+        }
+        return commercialPropertyMap;
+    }
+
+    // Method to display Commercial Property list
+    public static void displayCommercialProperties(List<CommercialProperty> commercialProperties) {
+        for (CommercialProperty commercialProperty : commercialProperties) {
+            System.out.println(commercialProperty);
+        }
+    }
 
     // Method to read commercial properties from a file
-    public static List<CommercialProperty> readCommercialPropertiesFromFile(String filePath) throws IOException {
-        List<CommercialProperty> commercialProperties = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                CommercialProperty property = parseCommercialPropertyLine(line);
-                if (property != null) {
-                    commercialProperties.add(property);
-                } else {
-                    // Log or handle the case where parsing fails
-                    System.err.println("Failed to parse line: " + line);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-            throw e;  // Re-throwing the exception so that it can be handled higher up the call stack
-        }
-
-        return commercialProperties;
+    public static List<CommercialProperty> readCommercialPropertiesFromFile() throws IOException {
+        // Step 1: Read CommercialProperty for the first time
+        Map<String, CommercialProperty> commercialProperties = readCommercialPropertiesFirstTime();
+        readCommercialPropertiesSecondTime(commercialProperties);
+        // Convert the map back to a list for return
+        return new ArrayList<>(commercialProperties.values());
     }
 
     //commericial_property.txt: Commercial Property{propertyID='cp-01', address='25452 Delila Ports', pricing='$1469.26', status='Rented', ownerID='o-08', hostList='h-07, h-08, h-03', businessType='Government Administration', parkingSpaces=10, squareFootage=5465.17}
-    public static CommercialProperty parseCommercialPropertyLine(String line) {
-        // Extracting propertyID
-        String propertyId = extractValue(line, "propertyID='", "'");
+    public static Map<String, CommercialProperty> readCommercialPropertiesFirstTime() {
+        Map<String, CommercialProperty> cachedCommercialProperty = new LinkedHashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                try {
+                    String propertyId = extractValue(line, "propertyID='", "'");
+                    String address = extractValue(line, "address='", "'");
+                    String pricingStr = extractValue(line, "pricing='", "'");
+                    double pricing = parsePricing(pricingStr);
 
-        // Extracting address
-        String address = extractValue(line, "address='", "'");
+                    String propertyStatusStr = extractValue(line, "status='", "'");
+                    PropertyStatus status = PropertyStatus.valueOf(propertyStatusStr.toUpperCase());
 
-        // Extracting pricing (removing the dollar sign and parsing as double)
-        String pricingStr = extractValue(line, "pricing='", "'");
-        double pricing = pricingStr != null ? Double.parseDouble(pricingStr.replace("$", "").trim()) : 0.0;
+                    String businessType = extractValue(line, "businessType='", "'");
 
-        // Extracting status (assuming PropertyStatus is a simple string for now)
-        String statusStr = extractValue(line, "status='", "'");
-        PropertyStatus status = PropertyStatus.valueOf(statusStr.toUpperCase());
+                    String parkingSpacesStr = extractValue(line, "parkingSpaces=", ",");
+                    int parkingSpaces = 0;  // Default value
+                    if (parkingSpacesStr != null) {
+                        try {
+                            parkingSpaces = Integer.parseInt(parkingSpacesStr.trim());
+                        } catch (NumberFormatException e) {
+                            System.err.println("Invalid parking spaces value: " + parkingSpacesStr);
+                        }
+                    } else {
+                        System.err.println("Missing parking spaces value for line: " + line);
+                    }
 
-        // Extracting owner (assuming owner is identified by ownerID)
-        String ownerId = extractValue(line, "ownerID='", "'");
-        Owner owner = new Owner(ownerId);
 
-        // Extracting host list
-        String hostListString = extractValue(line, "hostList='", "'");
-        List<Host> hostList = new ArrayList<>();
-        if (hostListString != null) {
-            //System.out.println("Host List String: " + hostListString);  // Debugging output
-            String[] hosts = hostListString.split(",\\s*");  // Split by comma and optional spaces
-            for (String hostId : hosts) {
-                //System.out.println("Parsed Host ID: " + hostId.trim());  // Debugging output
-                hostList.add(new Host(hostId.trim()));  // Add each Host object to the list
+                    String squareFootageStr = extractValue(line, "squareFootage=", null);
+
+                    if (squareFootageStr != null) {
+                        squareFootageStr = squareFootageStr.replaceAll("[^\\d.]", "");  // Keep only digits and dot
+                    }
+
+                    double squareFootage = squareFootageStr != null ? Double.parseDouble(squareFootageStr.trim()) : 0.0;
+
+                    // Create CommercialProperty object
+                    CommercialProperty commercialProperty = new CommercialProperty(
+                            propertyId, address, pricing, status, businessType, parkingSpaces, squareFootage);
+
+                    // Add to map
+                    cachedCommercialProperty.put(propertyId, commercialProperty);
+
+                } catch (Exception e) {
+                    System.err.println("Error processing line: " + line);
+                    e.printStackTrace();
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-//        String hostListString = extractValue(line, "hostList='", "'");
-//        List<Host> hostList = new ArrayList<>();
-//        if (hostListString != null) {
-//            String[] hosts = hostListString.split(",\\s*");  // Split by comma and optional spaces
-//            for (String hostId : hosts) {
-//                hostList.add(new Host(hostId));  // Add each Host object to the list
-//            }
-//        }
+        return cachedCommercialProperty; // Return the map of commercial properties
+    }
 
-        // Extracting businessType
-        String businessType = extractValue(line, "businessType='", "'");
+    public static Map<String, CommercialProperty> readCommercialPropertiesSecondTime(Map<String, CommercialProperty> commercialPropertiesMap) throws IOException {
 
-        // Extracting parkingSpaces
-        String parkingSpacesStr = extractValue(line, "parkingSpaces=", ",");
-        int parkingSpaces = parkingSpacesStr != null ? Integer.parseInt(parkingSpacesStr.trim()) : 0;
+        Map<String, Owner> ownerMap = OwnerReadFile.getOwnerMap();
+        Map<String, Host> hostMap = HostReadFile.getHostMap();
 
-        // Extracting square footage
-        String squareFootageStr = extractValue(line, "squareFootage=", null);
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
 
-        // Remove any non-numeric characters (like closing curly brace '}') before parsing
-        if (squareFootageStr != null) {
-            squareFootageStr = squareFootageStr.replaceAll("[^\\d.]", "");  // Keep only digits and dot
+                String propertyId = extractValue(line, "propertyID='", "'");
+                CommercialProperty commercialProperty = commercialPropertiesMap.get(propertyId);
+                if (commercialProperty == null) {
+                    System.err.println("commercialProperty not found for ID: " + propertyId);
+                    continue;
+                }
+
+                String ownerId = extractValue(line, "ownerID='", "'");
+                Owner owner = ownerMap.get(ownerId);
+                if (owner == null) {
+                    System.err.println("Owner not found for ID: " + ownerId);
+                    continue;
+                }
+
+
+
+                String hostListIds = extractValue(line, "hostList='", "'");  // Extract comma-separated tenant IDs
+                if ("null".equals(hostListIds)) {
+                    hostListIds = null;  // If hostListIds is 'None', set it to null
+                }
+                List<Host> hostList = new ArrayList<>();
+                if (hostListIds != null) {
+                    String[] hostListIdArray = hostListIds.split(",");
+
+                    for (String hostId : hostListIdArray) {
+                        hostId = hostId.trim();
+                        Host host = hostMap.get(hostId);
+                        if (host != null) {
+                            hostList.add(host);
+                        } else {
+                            //System.err.println("Host not found for ID: " + hostId);
+                        }
+                    }
+                }
+
+                commercialProperty.setOwner(owner);
+                commercialProperty.setHostList(hostList);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return commercialPropertiesMap;
+    }
 
-        double squareFootage = squareFootageStr != null ? Double.parseDouble(squareFootageStr.trim()) : 0.0;
-
-        // Create and return a new CommercialProperty object
-        return new CommercialProperty(propertyId, address, pricing, status, owner, hostList, businessType, parkingSpaces, squareFootage);
+    private static double parsePricing(String feeString) {
+        if (feeString == null || feeString.isEmpty()) return 0.0;
+        return Double.parseDouble(feeString.replace("$", "").replace(",", ""));
     }
 
     private static String extractValue(String line, String prefix, String suffix) {
@@ -113,30 +166,4 @@ public class CommercialPropertyReadFile {
         return line.substring(startIndex, endIndex).trim();
     }
 
-    // Method to get a CommercialProperty by its ID
-    public static CommercialProperty getPropertyByID(String id) throws IOException {
-        String filePath = "src/components/resource/data/propertyData/commercial_property.txt";
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Use a more precise method to extract the property ID
-                if (line.startsWith("Commercial Property{propertyID='" + id + "'")) {
-                    return parseCommercialPropertyLine(line);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-            throw e;  // Re-throwing the exception for higher-level handling
-        }
-
-        return null;  // Return null if the property ID is not found
-    }
-
-    // Method to display Commercial Property list
-    public static void displayCommercialProperties(List<CommercialProperty> commercialProperties) {
-        for (CommercialProperty commercialProperty : commercialProperties) {
-            System.out.println(commercialProperty);
-        }
-    }
 }

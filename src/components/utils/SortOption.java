@@ -21,4 +21,5 @@ public class SortOption<T> {
     public Comparator<T> getComparator() {
         return comparator;
     }
+
 }

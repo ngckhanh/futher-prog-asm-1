@@ -4,13 +4,11 @@ package models.entities;
  */
 import java.util.Date;
 
-
 public class Person {
     private String id;
     private String fullName;
     private Date dob;
     private String contactInfo;
-
 
     //Constructor
     public Person(String id, String fullName, Date dob, String contactInfo) {

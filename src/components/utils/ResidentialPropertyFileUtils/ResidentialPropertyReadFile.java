@@ -4,84 +4,135 @@ package utils.ResidentialPropertyFileUtils;
  */
 import models.entities.*;
 import models.enums.PropertyStatus;
+import utils.HostFileUtils.HostReadFile;
+import utils.OwnerFileUtils.OwnerReadFile;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-//import static utils.HostFileUtils.HostReadFile.getHostByID;
-//import static utils.OwnerFileUtils.OwnerReadFile.getOwnerByID;
-//import static utils.PaymentFileUtils.PaymentReadFile.getPaymentRecordByID;
+import java.util.*;
 
 public class ResidentialPropertyReadFile {
+    static String filePath = "src/components/resource/data/propertyData/residential_property.txt";
 
-    String filePath = "src/components/resource/data/propertyData/residential_property.txt";
-
-
-    // Read and parse ResidentialProperty file line by line
-    public static List<ResidentialProperty> readResidentialPropertiesFromFile(String filePath) throws IOException {
-        List<ResidentialProperty> residentialProperties = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                residentialProperties.add(parseResidentialPropertyLine(line));
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-            throw e;  // Re-throwing the exception so that it can be handled higher up the call stack
+    private static Map<String, ResidentialProperty> residentialPropertyMap;
+    public static Map<String, ResidentialProperty> getResidentialPropertyMap() throws IOException {
+        if (residentialPropertyMap == null) {
+            residentialPropertyMap = readResidentialPropertiesFirstTime();
+            residentialPropertyMap = readResidentialPropertiesSecondTime(residentialPropertyMap);
         }
+        return residentialPropertyMap;
+    }
 
-        return residentialProperties;
+    // Method to display Residential Property list
+    public static void displayResidentialProperties(List<ResidentialProperty> residentialProperties) {
+        for (ResidentialProperty residentialProperty : residentialProperties) {
+            System.out.println(residentialProperty);
+        }
+    }
+
+    // Method to read residential properties from a file
+    public static List<ResidentialProperty> readResidentialPropertiesFromFile() throws IOException {
+        // Step 1: Read CommercialProperty for the first time
+        Map<String, ResidentialProperty> residentialProperties = readResidentialPropertiesFirstTime();
+
+        readResidentialPropertiesSecondTime(residentialProperties);
+        // Convert the map back to a list for return
+        return new ArrayList<>(residentialProperties.values());
     }
 
     //residential_property.txt: Residential Property{propertyID='rp-02', address='545 O'Kon Path', pricing='$1408.74', status='Rented', ownerID='o-03', hostList='h-09, h-10', numberOfBedrooms=4, gardenAvailable=false, petFriendly=true}
-    public static ResidentialProperty parseResidentialPropertyLine(String line) throws IOException {
-        // Extracting propertyID
-        String propertyId = extractValue(line, "propertyID='", "'");
+    public static Map<String, ResidentialProperty> readResidentialPropertiesFirstTime() {
+        Map<String, ResidentialProperty> cachedResidentialProperty = new LinkedHashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                try {
+                    String propertyId = extractValue(line, "propertyID='", "'");
+                    String address = extractValue(line, "address='", "'");
+                    String pricingStr = extractValue(line, "pricing='", "'");
+                    double pricing = parsePricing(pricingStr);
 
-        // Extracting address
-        String address = extractValue(line, "address='", "'");
+                    String propertyStatusStr = extractValue(line, "status='", "'");
+                    PropertyStatus status = PropertyStatus.valueOf(propertyStatusStr.toUpperCase());
 
-        // Extracting pricing (removing the dollar sign and parsing as double)
-        String pricingStr = extractValue(line, "pricing='", "'");
-        double pricing = pricingStr != null ? Double.parseDouble(pricingStr.replace("$", "").trim()) : 0.0;
+                    int numbBedrooms = Integer.parseInt(extractValue(line, "numberOfBedrooms=", ","));
+                    boolean gardenAvailable = Boolean.parseBoolean(extractValue(line, "gardenAvailable=", ","));
+                    boolean petFriendly = Boolean.parseBoolean(extractValue(line, "petFriendly=", "}"));
 
-        // Extracting status (assuming PropertyStatus is a simple string for now)
-        String statusStr = extractValue(line, "status='", "'");
-        PropertyStatus status = PropertyStatus.valueOf(statusStr.toUpperCase());
+                    // Create ResidentialProperty object
+                    ResidentialProperty residentialProperty = new ResidentialProperty(
+                            propertyId, address, pricing, status, numbBedrooms, gardenAvailable, petFriendly);
 
-        // Extracting owner (assuming owner is identified by ownerID)
-        String ownerId = extractValue(line, "ownerID='", "'");
-        Owner owner = new Owner(ownerId);
+                    // Add to map
+                    cachedResidentialProperty.put(propertyId, residentialProperty);
 
-        // Extracting host list
-        String hostListString = extractValue(line, "hostList='", "'");
-        List<Host> hostList = new ArrayList<>();
-        if (hostListString != null) {
-            String[] hosts = hostListString.split(",\\s*");  // Split by comma and optional spaces
-            for (String hostId : hosts) {
-                hostList.add(new Host(hostId));  // Add each Host object to the list
+                } catch (Exception e) {
+                    System.err.println("Error processing line: " + line);
+                    e.printStackTrace();
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return cachedResidentialProperty;
+    }
 
-        //Extracting numbBedrooms
-        String numbBedroomsStr = extractValue(line, "numberOfBedrooms=", ",");
-        int numbBedrooms = numbBedroomsStr != null ? Integer.parseInt(numbBedroomsStr.trim()) : 0;
+    public static Map<String, ResidentialProperty> readResidentialPropertiesSecondTime(Map<String, ResidentialProperty> residentialPropertiesMap) throws IOException  {
+        Map<String, Owner> ownerMap = OwnerReadFile.getOwnerMap();
+        Map<String, Host> hostMap = HostReadFile.getHostMap();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                String propertyId = extractValue(line, "propertyID='", "'");
+                ResidentialProperty residentialProperty = residentialPropertiesMap.get(propertyId);
+                if (residentialProperty == null) {
+                    System.err.println("residentialProperty not found for ID: " + propertyId);
+                    continue;
+                }
+
+                String ownerId = extractValue(line, "ownerID='", "'");
+                Owner owner = ownerMap.get(ownerId);
+                if (owner == null) {
+                    System.err.println("Owner not found for ID: " + ownerId);
+                    continue;
+                }
 
 
-        //Extracting garden availability
-        String gardenAvailableStr = extractValue(line, "gardenAvailable=", ",");
-        boolean gardenAvailable = gardenAvailableStr != null ? Boolean.parseBoolean(gardenAvailableStr.trim()) : false;
+                String hostListIds = extractValue(line, "hostList='", "'");  // Extract comma-separated tenant IDs
+                if ("null".equals(hostListIds)) {
+                    hostListIds = null;  // If hostListIds is 'None', set it to null
+                }
+                List<Host> hostList = new ArrayList<>();
+                if (hostListIds != null) {
+                    String[] hostListIdArray = hostListIds.split(",");
 
-        //Extracting pet friendliness
-        String petFriendlyStr = extractValue(line, "petFriendly=", "}");
-        boolean petFriendly = petFriendlyStr != null ? Boolean.parseBoolean(petFriendlyStr.trim()) : false;
+                    for (String hostId : hostListIdArray) {
+                        hostId = hostId.trim();
+                        Host host = hostMap.get(hostId);
+                        if (host != null) {
+                            hostList.add(host);
+                        } else {
+                            //System.err.println("Host not found for ID: " + hostId);
+                        }
+                    }
+                }
 
-        // Create and return a new ResidentialProperty object
-        return new ResidentialProperty(propertyId, address, pricing, status, owner, hostList, numbBedrooms, gardenAvailable, petFriendly);
+
+                residentialProperty.setHostList(hostList);
+                residentialProperty.setOwner(owner);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return residentialPropertiesMap;
+    }
+
+    private static double parsePricing(String feeString) {
+        if (feeString == null || feeString.isEmpty()) return 0.0;
+        return Double.parseDouble(feeString.replace("$", "").replace(",", ""));
     }
 
     private static String extractValue(String line, String prefix, String suffix) {
@@ -93,12 +144,5 @@ public class ResidentialPropertyReadFile {
         if (endIndex == -1) return null;
 
         return line.substring(startIndex, endIndex).trim();
-    }
-
-    // Method to display Residential Property list
-    public static void displayResidentialProperties(List<ResidentialProperty> residentialProperties) {
-        for (ResidentialProperty residentialProperty : residentialProperties) {
-            System.out.println(residentialProperty);
-        }
     }
 }

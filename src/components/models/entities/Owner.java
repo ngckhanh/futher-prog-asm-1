@@ -10,31 +10,10 @@ public class Owner extends Person{
     private List<Property> ownedPropertyList;
     private List<Host> hostList;
 
-    public Owner(String id, String fullName, Date dob, String contactInfo, List<Property> ownedPropertyList, List<Host> hostList) {
-        super(id, fullName, dob, contactInfo);
-        this.ownedPropertyList = ownedPropertyList != null ? ownedPropertyList : new ArrayList<>();
-        this.hostList = hostList != null ? hostList : new ArrayList<>();
-    }
-
     public Owner(String id, String fullName, Date dob, String contactInfo) {
         super(id, fullName, dob, contactInfo);
         this.ownedPropertyList = new ArrayList<>();
         this.hostList = new ArrayList<>();
-    }
-
-    public Owner(String ownerId) {
-        super(ownerId, "", new Date(), "");
-        this.ownedPropertyList = new ArrayList<>();
-        this.hostList = new ArrayList<>();
-    }
-
-
-
-    public void addOwnedProperty(Property property) {
-        this.ownedPropertyList.add(property);
-    }
-    public void addHost(Host host) {
-        this.hostList.add(host);
     }
 
     public List<Host> getHostList() {
@@ -43,6 +22,14 @@ public class Owner extends Person{
 
     public List<Property> getOwnedPropertyList() {
         return ownedPropertyList;
+    }
+
+    public void setHostLists(List<Host> hostList) {
+        this.hostList = hostList;
+    }
+
+    public void setOwnedProperties(List<Property> ownedPropertyList) {
+        this.ownedPropertyList = ownedPropertyList;
     }
 
     @Override
@@ -63,14 +50,13 @@ public class Owner extends Person{
             ownedPropertyListIds.setLength(ownedPropertyListIds.length() - 2); // Remove trailing comma
         }
 
-
         return "Owner{" +
                 "ID='" + getId() + '\'' +
                 ", fullName='" + getFullName() + '\'' +
                 ", dob='" + getDob() + '\'' +
                 ", contactInfo='" + getContactInfo() + '\'' +
-                ", hostList='" + (hostListIds.length() > 0 ? hostListIds.toString() : "None") + '\'' +
                 ", ownedPropertyList='" + (ownedPropertyListIds.length() > 0 ? ownedPropertyListIds.toString() : "None") + '\'' +
+                ", hostList='" + (hostListIds.length() > 0 ? hostListIds.toString() : "None") + '\'' +
                 '}';
     }
 

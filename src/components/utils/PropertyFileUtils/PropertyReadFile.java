@@ -2,18 +2,29 @@ package utils.PropertyFileUtils;
 /**
  * @author <Ton Nu Ngoc Khanh - s3932105>
  */
-import models.entities.Host;
-import models.entities.Owner;
-import models.entities.Property;
-import models.entities.ResidentialProperty;
-import models.enums.PropertyStatus;
+import models.entities.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import utils.CommercialPropertyFileUtils.CommercialPropertyReadFile;
+import utils.ResidentialPropertyFileUtils.ResidentialPropertyReadFile;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PropertyReadFile {
 
+    public static Map<String, Property> combinePropertiesToMap() throws IOException {
+        Map<String, Property> propertiesMap = new LinkedHashMap<>();
+
+        // Read commercial properties
+        Map<String, CommercialProperty> commercialPropertiesMap = CommercialPropertyReadFile.getCommercialPropertyMap();
+        // Add commercial properties to propertiesMap
+        propertiesMap.putAll(commercialPropertiesMap);
+
+        // Read residential properties
+        Map<String, ResidentialProperty> residentialPropertiesMap = ResidentialPropertyReadFile.getResidentialPropertyMap();
+        // Add residential properties to propertiesMap
+        propertiesMap.putAll(residentialPropertiesMap);
+
+        return propertiesMap;
+    }
 }

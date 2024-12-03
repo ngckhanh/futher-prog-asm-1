@@ -5,8 +5,6 @@ package models.entities;
 
 import models.enums.PaymentMethod;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Payment {
@@ -23,35 +21,16 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
-    public Payment(String paymentId) {
-        this.paymentId = paymentId;
-        this.amount = amount;
-        this.paymentDate = paymentDate;
-        this.paymentMethod = paymentMethod;
-    }
-
     public double getAmount() {
         return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 
     public Date getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
     public String getPaymentId() {
         return paymentId;
-    }
-
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId;
     }
 
     public PaymentMethod getPaymentMethod() {

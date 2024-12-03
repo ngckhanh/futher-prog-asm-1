@@ -12,9 +12,8 @@ public class ResidentialProperty extends Property {
     private boolean gardenAvailable;
     private boolean petFriendly;
 
-    public ResidentialProperty(String propertyId, String address, double pricing, PropertyStatus status, Owner owner, List<Host> hostList,
-                               int numbBedrooms, boolean gardenAvailable, boolean petFriendly) {
-        super(propertyId, address, pricing, status, owner, hostList);
+    public ResidentialProperty(String propertyId, String address, Double pricing, PropertyStatus status, int numbBedrooms, boolean gardenAvailable, boolean petFriendly) {
+        super(propertyId, address, pricing, status);
         this.numbBedrooms = numbBedrooms;
         this.gardenAvailable = gardenAvailable;
         this.petFriendly = petFriendly;
@@ -44,7 +43,7 @@ public class ResidentialProperty extends Property {
                 ", address='" + getAddress() + '\'' +
                 ", pricing='" + getPricing() + '\'' +
                 ", status='" + getStatus() + '\'' +
-                ", ownerID='" + getOwner() + '\'' +
+                ", ownerID='" + getOwnerID() + '\'' +
                 ", hostList='" + hostListIds + '\'' + // Display host IDs or "null"
                 ", numberOfBedrooms=" + numbBedrooms +
                 ", gardenAvailable=" + gardenAvailable +

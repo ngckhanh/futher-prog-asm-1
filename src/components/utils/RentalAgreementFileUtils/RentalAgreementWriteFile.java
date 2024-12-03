@@ -26,13 +26,4 @@ public class RentalAgreementWriteFile {
         }
     }
 
-    // Method to save the updated list of rental agreements back to the file
-    public static void saveRentalAgreementsToFile(List<RentalAgreement> rentalAgreements) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            for (RentalAgreement agreement : rentalAgreements) {
-                writer.write(agreement.toString()); // Ensure this outputs the correct format
-                writer.newLine();
-            }
-        }
-    }
 }
