@@ -1,0 +1,15 @@
+Host{ID='h-01', fullName='Josue Russel', dob='Sat Sep 23 11:52:37 ICT 1995', contactInfo='adelina.yundt@hotmail.com', managedPropertyList='cp-04', cooperatingOwnerList='o-09', rentalAgreementList='a-07'}
+Host{ID='h-02', fullName='Julia Morissette', dob='Wed Nov 04 13:26:47 ICT 1987', contactInfo='andres.mayert@gmail.com', managedPropertyList='rp-01', cooperatingOwnerList='o-15', rentalAgreementList='a-02'}
+Host{ID='h-03', fullName='Lera Walter', dob='Sun Aug 08 10:25:04 ICT 1965', contactInfo='jacquline.kohler@yahoo.com', managedPropertyList='cp-03', cooperatingOwnerList='o-10', rentalAgreementList='a-05'}
+Host{ID='h-04', fullName='Martin Robel IV', dob='Mon Nov 17 17:39:19 ICT 1975', contactInfo='jodi.keeling@yahoo.com', managedPropertyList='cp-01', cooperatingOwnerList='o-15', rentalAgreementList='a-02'}
+Host{ID='h-05', fullName='Loni Cronin', dob='Mon Jun 23 06:31:45 ICT 1975', contactInfo='warren.denesik@gmail.com', managedPropertyList='cp-06', cooperatingOwnerList='o-03', rentalAgreementList='a-11'}
+Host{ID='h-06', fullName='Imelda Ferry', dob='Sun Jun 11 15:30:37 ICT 1961', contactInfo='mickie.ondricka@yahoo.com', managedPropertyList='rp-07', cooperatingOwnerList='o-01', rentalAgreementList='a-01'}
+Host{ID='h-07', fullName='Roselia Stroman', dob='Sun Apr 01 04:04:10 ICT 2001', contactInfo='karl.turcotte@gmail.com', managedPropertyList='cp-02', cooperatingOwnerList='o-11', rentalAgreementList='a-03'}
+Host{ID='h-08', fullName='Mr. Homer Witting', dob='Mon May 30 10:10:38 ICT 1966', contactInfo='steve.hand@yahoo.com', managedPropertyList='rp-05', cooperatingOwnerList='o-05', rentalAgreementList='a-06'}
+Host{ID='h-09', fullName='John Okuneva', dob='Mon Jun 26 02:17:22 ICT 1967', contactInfo='jarvis.altenwerth@hotmail.com', managedPropertyList='cp-07', cooperatingOwnerList='o-02', rentalAgreementList='a-13'}
+Host{ID='h-10', fullName='Gerry Vandervort', dob='Wed Jul 05 21:47:34 ICT 1961', contactInfo='norah.collins@hotmail.com', managedPropertyList='rp-03', cooperatingOwnerList='o-10', rentalAgreementList='a-10'}
+Host{ID='h-11', fullName='Marcellus Crist', dob='Thu Jan 26 04:04:35 ICT 1967', contactInfo='scot.gulgowski@gmail.com', managedPropertyList='rp-02', cooperatingOwnerList='o-12', rentalAgreementList='a-12'}
+Host{ID='h-12', fullName='Cathi McKenzie', dob='Wed Jul 02 04:09:42 ICT 1997', contactInfo='marinda.robel@gmail.com', managedPropertyList='cp-05', cooperatingOwnerList='o-07', rentalAgreementList='a-09'}
+Host{ID='h-13', fullName='Courtney Rodriguez', dob='Sat Jun 13 12:41:38 ICT 1981', contactInfo='shirely.ortiz@gmail.com', managedPropertyList='rp-06', cooperatingOwnerList='o-04', rentalAgreementList='a-04'}
+Host{ID='h-14', fullName='Miss Ali Emmerich', dob='Tue Feb 29 22:42:15 ICT 1972', contactInfo='paris.murray@yahoo.com', managedPropertyList='rp-04', cooperatingOwnerList='o-07', rentalAgreementList='a-08'}
+Host{ID='h-15', fullName='Ricki Bayer', dob='Tue Aug 08 13:29:43 ICT 1972', contactInfo='dalton.mcglynn@hotmail.com', managedPropertyList='cp-08', cooperatingOwnerList='o-01', rentalAgreementList='a-15'}

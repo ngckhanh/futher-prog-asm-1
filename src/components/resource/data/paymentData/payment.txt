@@ -1,0 +1,15 @@
+Payment{paymentId='p-01', amount='$310.83', paymentDate='Sat Nov 16 22:08:01 ICT 2024', method='Credit_card'}
+Payment{paymentId='p-02', amount='$1347.78', paymentDate='Tue Nov 05 12:43:20 ICT 2024', method='Cash'}
+Payment{paymentId='p-03', amount='$1819.59', paymentDate='Wed Nov 20 17:11:45 ICT 2024', method='Cash'}
+Payment{paymentId='p-04', amount='$1539.8', paymentDate='Fri Nov 08 02:50:42 ICT 2024', method='Cash'}
+Payment{paymentId='p-05', amount='$807.74', paymentDate='Thu Oct 31 20:56:43 ICT 2024', method='Cash'}
+Payment{paymentId='p-06', amount='$510.35', paymentDate='Wed Oct 23 13:45:30 ICT 2024', method='Cash'}
+Payment{paymentId='p-07', amount='$1233.77', paymentDate='Tue Nov 12 15:04:33 ICT 2024', method='Cash'}
+Payment{paymentId='p-08', amount='$876.15', paymentDate='Thu Nov 07 10:39:16 ICT 2024', method='Cash'}
+Payment{paymentId='p-09', amount='$1164.03', paymentDate='Fri Nov 01 00:57:20 ICT 2024', method='Credit_card'}
+Payment{paymentId='p-10', amount='$320.42', paymentDate='Thu Oct 24 16:13:34 ICT 2024', method='Credit_card'}
+Payment{paymentId='p-11', amount='$974.64', paymentDate='Wed Oct 23 18:23:33 ICT 2024', method='Cash'}
+Payment{paymentId='p-12', amount='$1266.52', paymentDate='Wed Nov 13 17:18:09 ICT 2024', method='Cash'}
+Payment{paymentId='p-13', amount='$1610.88', paymentDate='Sat Nov 16 08:26:07 ICT 2024', method='Credit_card'}
+Payment{paymentId='p-14', amount='$1649.65', paymentDate='Fri Nov 01 18:14:04 ICT 2024', method='Credit_card'}
+Payment{paymentId='p-15', amount='$1865.04', paymentDate='Mon Nov 04 17:57:05 ICT 2024', method='Credit_card'}

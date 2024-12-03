@@ -1,0 +1,15 @@
+Residential Property{propertyID='rp-01', address='946 Marcus Harbors', pricing='$4235.83', status='Rented', ownerID='o-15', hostList='h-02', numberOfBedrooms=1, gardenAvailable=false, petFriendly=true}
+Residential Property{propertyID='rp-02', address='891 Heaney Glens', pricing='$4535.94', status='Available', ownerID='o-12', hostList=h-11', numberOfBedrooms=3, gardenAvailable=false, petFriendly=true}
+Residential Property{propertyID='rp-03', address='7325 Elfrieda Stream', pricing='$4233.39', status='Available', ownerID='o-10', hostList='h-10', numberOfBedrooms=4, gardenAvailable=true, petFriendly=true}
+Residential Property{propertyID='rp-04', address='646 Marco Key', pricing='$2600.09', status='Under_maintenance', ownerID='o-07', hostList='h-14', numberOfBedrooms=4, gardenAvailable=true, petFriendly=true}
+Residential Property{propertyID='rp-05', address='96285 Truman Springs', pricing='$1295.54', status='Available', ownerID='o-05', hostList='h-08', numberOfBedrooms=2, gardenAvailable=false, petFriendly=false}
+Residential Property{propertyID='rp-06', address='28628 Ward Street', pricing='$4158.42', status='Under_maintenance', ownerID='o-04', hostList='h-13', numberOfBedrooms=3, gardenAvailable=false, petFriendly=true}
+Residential Property{propertyID='rp-07', address='63419 Mel Throughway', pricing='$2326.01', status='Under_maintenance', ownerID='o-01', hostList='h-06', numberOfBedrooms=3, gardenAvailable=true, petFriendly=false}
+Residential Property{propertyID='rp-08', address='071 Tamekia Mills', pricing='$2057.81', status='Rented', ownerID='o-08', hostList='null', numberOfBedrooms=2, gardenAvailable=true, petFriendly=false}
+Residential Property{propertyID='rp-09', address='1759 Melissa Isle', pricing='$4700.25', status='Under_maintenance', ownerID='o-11', hostList='null', numberOfBedrooms=4, gardenAvailable=true, petFriendly=false}
+Residential Property{propertyID='rp-10', address='55208 Lindgren Vista', pricing='$4318.45', status='Rented', ownerID='o-13', hostList='null', numberOfBedrooms=4, gardenAvailable=true, petFriendly=false}
+Residential Property{propertyID='rp-11', address='196 Stamm Cove', pricing='$2747.57', status='Rented', ownerID='o-14', hostList='null', numberOfBedrooms=1, gardenAvailable=false, petFriendly=false}
+Residential Property{propertyID='rp-12', address='92829 Rachel Street', pricing='$2155.61', status='Available', ownerID='o-15', hostList='null', numberOfBedrooms=3, gardenAvailable=false, petFriendly=true}
+Residential Property{propertyID='rp-13', address='997 Corene Meadow', pricing='$4353.71', status='Under_maintenance', ownerID='o-09', hostList='null', numberOfBedrooms=4, gardenAvailable=false, petFriendly=false}
+Residential Property{propertyID='rp-14', address='70835 Chance Harbor', pricing='$4014.19', status='Rented', ownerID='o-06', hostList='null', numberOfBedrooms=4, gardenAvailable=false, petFriendly=false}
+Residential Property{propertyID='rp-15', address='12468 Mary Meadow', pricing='$1737.04', status='Under_maintenance', ownerID='o-03', hostList='null', numberOfBedrooms=2, gardenAvailable=true, petFriendly=false}

@@ -1,0 +1,15 @@
+Owner{ID='o-01', fullName='Rodrick Paucek', dob='Fri Nov 19 17:36:59 ICT 1976', contactInfo='waltraud.kessler@hotmail.com', ownedPropertyList='rp-07, cp-08, cp-13', hostList='h-06, h-15'}
+Owner{ID='o-02', fullName='Modesto Breitenberg DDS', dob='Mon Feb 05 14:17:08 ICT 1973', contactInfo='omar.romaguera@yahoo.com', ownedPropertyList='cp-07, cp-12', hostList='h-09'}
+Owner{ID='o-03', fullName='Mrs. Guadalupe Kessler', dob='Sun May 18 19:49:48 ICT 1980', contactInfo='lonnie.king@yahoo.com', ownedPropertyList='cp-06, rp-15, cp-15', hostList='h-05'}
+Owner{ID='o-04', fullName='Enrique Gulgowski', dob='Thu Jul 02 09:49:41 ICT 1981', contactInfo='pete.deckow@hotmail.com', ownedPropertyList='rp-06', hostList='h-13'}
+Owner{ID='o-05', fullName='Emery Moore', dob='Sun Sep 30 08:44:31 ICT 1973', contactInfo='ernie.shields@hotmail.com', ownedPropertyList='rp-05, cp-11', hostList='h-08'}
+Owner{ID='o-06', fullName='Clarence Schmeler', dob='Mon Oct 04 17:17:10 ICT 1993', contactInfo='maryland.quitzon@yahoo.com', ownedPropertyList='rp-14, cp-10', hostList='null'}
+Owner{ID='o-07', fullName='Barton Brakus', dob='Fri Dec 27 05:25:55 ICT 1996', contactInfo='chassidy.schoen@yahoo.com', ownedPropertyList='cp-05, rp-04', hostList='h-14, h-12'}
+Owner{ID='o-08', fullName='Jefferey Carroll', dob='Mon Sep 03 23:55:31 ICT 1979', contactInfo='joline.grimes@gmail.com', ownedPropertyList='rp-08', hostList='null'}
+Owner{ID='o-09', fullName='Cleo Dietrich', dob='Tue Oct 11 00:04:46 ICT 1960', contactInfo='sid.bashirian@yahoo.com', ownedPropertyList='rp-13, cp-04', hostList='h-01'}
+Owner{ID='o-10', fullName='Cira Borer', dob='Sat Nov 08 23:51:51 ICT 1980', contactInfo='kelly.nikolaus@yahoo.com', ownedPropertyList='rp-03, cp-03', hostList='h-10, h-03'}
+Owner{ID='o-11', fullName='Dustin Reilly', dob='Mon Sep 15 04:50:46 ICT 1997', contactInfo='elbert.aufderhar@hotmail.com', ownedPropertyList='cp-02, rp-09', hostList='h-07'}
+Owner{ID='o-12', fullName='Miss Gregorio Wilkinson', dob='Wed Aug 07 02:58:37 ICT 1991', contactInfo='amalia.kiehn@gmail.com', ownedPropertyList='rp-02', hostList='h-11'}
+Owner{ID='o-13', fullName='Ellsworth Yundt', dob='Sun Oct 09 11:51:35 ICT 1994', contactInfo='lasonya.littel@yahoo.com', ownedPropertyList='rp-10, cp-14', hostList='null'}
+Owner{ID='o-14', fullName='Ezequiel Rodriguez', dob='Mon Aug 30 00:56:25 ICT 2004', contactInfo='suzette.gislason@yahoo.com', ownedPropertyList='rp-11, cp-09', hostList='null'}
+Owner{ID='o-15', fullName='Izola Thiel', dob='Sat Apr 12 02:03:03 ICT 1997', contactInfo='maryam.hessel@gmail.com', ownedPropertyList='rp-01, cp-01, rp-12', hostList='h-02, h-04'}
